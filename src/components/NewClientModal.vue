@@ -21,6 +21,7 @@
 
 <script>
 import { Modal, Form, Input, Checkbox } from 'ant-design-vue';
+import modalStackManager from '@/utils/ModalStackManager';
 
 export default {
   name: 'NewClientModal',
@@ -44,7 +45,8 @@ export default {
         name: '',
         phone: '',
         favorite: false
-      }
+      },
+      modalId: `new-client-modal-${Date.now()}-${Math.floor(Math.random() * 10000)}`
     };
   },
   computed: {
@@ -56,6 +58,17 @@ export default {
         if (!value) {
           this.$emit('close');
         }
+      }
+    }
+  },
+  watch: {
+    isVisible(newVal) {
+      if (newVal) {
+        // При открытии модального окна добавляем его в стек
+        modalStackManager.addModal(this.modalId, this.closeModal);
+      } else {
+        // При закрытии модального окна удаляем его из стека
+        modalStackManager.removeModal(this.modalId);
       }
     }
   },

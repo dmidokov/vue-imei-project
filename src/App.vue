@@ -4,7 +4,6 @@
     <div class="container">
       <h1 class="page-title">Новый заказ</h1>
 
-
       <a-form id="orderForm" :model="formData" @finish="submitForm" layout="vertical">
         <a-row :gutter="8">
           <a-col :span="12">
@@ -34,6 +33,7 @@
           <a-space>
             <a-button type="primary" html-type="submit">Сохранить заказ</a-button>
             <a-button @click="resetForm">Очистить форму</a-button>
+            <a-button @click="showTestModal = true">Открыть тестовое модальное окно</a-button>
           </a-space>
         </a-form-item>
 
@@ -46,6 +46,12 @@
       @close="showNewClientModal = false"
       @save="addNewClient"
     />
+
+    <TestModal
+      :isVisible="showTestModal"
+      @close="showTestModal = false"
+      @confirm="handleTestModalConfirm"
+    />
   </div>
 </template>
 
@@ -56,6 +62,7 @@ import ClientInfoSection from './components/ClientInfoSection.vue';
 import DeviceInfoSection from './components/DeviceInfoSection.vue';
 import IssueInfoSection from './components/IssueInfoSection.vue';
 import NewClientModal from './components/NewClientModal.vue';
+import TestModal from './components/TestModal.vue';
 
 export default {
   name: 'App',
@@ -68,12 +75,14 @@ export default {
     ClientInfoSection,
     DeviceInfoSection,
     IssueInfoSection,
-    NewClientModal
+    NewClientModal,
+    TestModal
   },
   data() {
     return {
       isDarkTheme: false,
       showNewClientModal: false,
+      showTestModal: false,
       formData: {
         clientName: '',
         deviceImei: '',
@@ -120,6 +129,9 @@ export default {
     addNewClient(clientData) {
       this.clients.push(clientData);
       this.showNewClientModal = false;
+    },
+    handleTestModalConfirm() {
+      console.log('Test modal confirmed');
     }
   },
   mounted() {
