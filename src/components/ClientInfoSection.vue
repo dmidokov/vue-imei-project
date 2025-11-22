@@ -13,9 +13,10 @@
                   v-model:value="localClientName"
                   :options="autocompleteOptions"
                   placeholder="Введите полное имя клиента"
-                  @input="onClientNameInput"
+                  @search="onClientNameInput"
                   @keydown="onClientNameKeydown"
                   @blur="onClientNameBlur"
+                  :filter-option="false"
                   style="width: 100%;"
                 />
               </a-form-item>
@@ -132,7 +133,7 @@ export default {
   data() {
     return {
       sampleClients: [],
-      showSuggestions: false,
+      // showSuggestions: false,
       filteredClients: [],
       activeSuggestionIndex: -1,
       currentIndex: -1
@@ -155,19 +156,20 @@ export default {
     }
   },
   methods: {
-    onClientNameInput(data) {
-      let value = data.data
+    onClientNameInput(value) {
       this.showSuggestions = value.trim() !== '';
-      
       if (value.trim()) {
         // Use sampleClients if available, otherwise use props.clients
         const clientsToSearch = this.sampleClients.length > 0 ? this.sampleClients : this.clients;
 
-        this.filteredClients = clientsToSearch.filter(client => function () {
-          return client.name.toLowerCase().includes(value.toLowerCase()) ||
-          client.phone.includes(value.replace(/\D/g, ''))
-        }
-        );
+        let processedPhone = value.replace(/\D/g, '')
+
+        this.filteredClients = clientsToSearch.filter(client => {
+          const nameMatch = client.name.toLowerCase().includes(value.toLowerCase());
+          const phoneMatch = processedPhone.length > 0 ? client.phone.replace(/\D/g, '').includes(value.replace(/\D/g, '')) : false;
+          return nameMatch || phoneMatch
+        });
+
       } else {
         this.filteredClients = [];
       }
