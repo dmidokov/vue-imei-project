@@ -4,25 +4,30 @@
     <div class="container">
       <h1 class="page-title">Новый заказ</h1>
 
+
       <a-form id="orderForm" :model="formData" @finish="submitForm" layout="vertical">
-        <ClientInfoSection
-          v-model:clientName="formData.clientName"
-          :clients="clients"
-          :oldOrders="oldOrders"
-          @new-client-requested="showNewClientModal = true"
-        />
-
-        <DeviceInfoSection
-          v-model:deviceImei="formData.deviceImei"
-          v-model:deviceType="formData.deviceType"
-          v-model:deviceBrand="formData.deviceBrand"
-          v-model:deviceModel="formData.deviceModel"
-          v-model:devicePassword="formData.devicePassword"
-          :imeiValidationError="imeiValidationError"
-          :graphicalPassword="graphicalPassword"
-          @update:graphicalPassword="updateGraphicalPassword"
-        />
-
+        <a-row :gutter="8">
+          <a-col :span="12">
+            <ClientInfoSection
+              v-model:clientName="formData.clientName"
+              :clients="clients"
+              :oldOrders="oldOrders"
+              @new-client-requested="showNewClientModal = true"
+            />
+          </a-col>
+          <a-col :span="12">
+            <DeviceInfoSection
+              v-model:deviceImei="formData.deviceImei"
+              v-model:deviceType="formData.deviceType"
+              v-model:deviceBrand="formData.deviceBrand"
+              v-model:deviceModel="formData.deviceModel"
+              v-model:devicePassword="formData.devicePassword"
+              :imeiValidationError="imeiValidationError"
+              :graphicalPassword="graphicalPassword"
+              @update:graphicalPassword="updateGraphicalPassword"
+            />
+          </a-col>
+        </a-row>
         <IssueInfoSection v-model:deviceIssue="formData.deviceIssue" />
 
         <a-form-item>
@@ -31,7 +36,9 @@
             <a-button @click="resetForm">Очистить форму</a-button>
           </a-space>
         </a-form-item>
+
       </a-form>
+
     </div>
 
     <NewClientModal

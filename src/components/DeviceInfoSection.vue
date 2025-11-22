@@ -4,8 +4,8 @@
       <h2 class="section-title">Информация об устройстве</h2>
     </template>
     <div class="device-info">
-      <a-row :gutter="16">
-        <a-col :span="6">
+      <a-row :gutter="8">
+        <a-col :span="12">
           <a-form-item label="IMEI устройства" :required="true">
             <a-input
               v-model:value="localDeviceImei"
@@ -16,7 +16,7 @@
             />
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="12">
           <a-form-item label="Тип устройства">
             <a-input
               v-model:value="localDeviceType"
@@ -26,8 +26,8 @@
         </a-col>
       </a-row>
 
-      <a-row :gutter="16">
-        <a-col :span="6">
+      <a-row :gutter="8">
+        <a-col :span="12">
           <a-form-item label="Марка" :required="true">
             <a-input
               v-model:value="localDeviceBrand"
@@ -35,7 +35,7 @@
             />
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="12">
           <a-form-item label="Модель" :required="true">
             <a-input
               v-model:value="localDeviceModel"
@@ -45,8 +45,8 @@
         </a-col>
       </a-row>
 
-      <a-row :gutter="16">
-        <a-col :span="6">
+      <a-row :gutter="8">
+        <a-col :span="12">
           <a-form-item label="Пароль">
             <div style="display: flex; gap: 8px; align-items: center;">
               <a-input
