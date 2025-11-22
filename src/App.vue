@@ -87,24 +87,6 @@ export default {
       graphicalPassword: '',
       oldOrders: [],
       clients: [
-        {
-          name: "Иванов Иван Иванович",
-          phone: "+7 (999) 123-45-67",
-          orders: [
-            { id: "ORD-001", device: "iPhone 12", model: "Смартфон" },
-            { id: "ORD-002", device: "MacBook Pro", model: "Ноутбук" },
-            { id: "ORD-003", device: "Samsung Galaxy S21", model: "Смартфон" }
-          ]
-        },
-        {
-          name: "Петров Петр Петрович",
-          phone: "+7 (999) 234-56-78",
-          orders: [
-            { id: "ORD-004", device: "iPhone 11", model: "Смартфон" },
-            { id: "ORD-005", device: "iPad Air", model: "Планшет" }
-          ]
-        },
-        // Add more clients as needed
       ]
     };
   },
