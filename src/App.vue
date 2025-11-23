@@ -96,6 +96,8 @@
               </a-row>
               <IssueInfoSection v-model:deviceIssue="formData.deviceIssue" />
 
+              <CompleteInfoSection v-model:completeInfo="formData.completeInfo" />
+
               <a-form-item>
                 <a-space>
                   <a-button type="primary" html-type="submit">Сохранить заказ</a-button>
@@ -157,6 +159,7 @@ import IssueInfoSection from './components/IssueInfoSection.vue';
 import NewClientModal from './components/NewClientModal.vue';
 import TestModal from './components/TestModal.vue';
 import FooterComponent from './components/FooterComponent.vue';
+import CompleteInfoSection from './components/CompleteInfoSection.vue';
 
 export default {
   name: 'App',
@@ -186,7 +189,8 @@ export default {
     IssueInfoSection,
     NewClientModal,
     TestModal,
-    FooterComponent
+    FooterComponent,
+    CompleteInfoSection
   },
   data() {
     return {
@@ -202,7 +206,8 @@ export default {
         deviceBrand: '',
         deviceModel: '',
         devicePassword: '',
-        deviceIssue: ''
+        deviceIssue: '',
+        completeInfo: ''
       },
       imeiValidationError: null,
       graphicalPassword: '',
