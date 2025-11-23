@@ -35,7 +35,10 @@
           <div class="old-orders-container">
             <h4 style="margin-top: 0px; margin-bottom: 4px; font-weight: 700;">Старые заказы:</h4>
             <div v-if="oldOrders.length > 0" id="oldOrdersList">
-              <div v-for="order in oldOrders" :key="order.id" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e1e5e9;">
+              <div v-for="order in oldOrders" :key="order.id"
+                   @click="onOrderClick(order)"
+                   style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e1e5e9; cursor: pointer;"
+                   :style="{ backgroundColor: selectedOrderId === order.id ? '#e6f7ff' : 'transparent' }">
                 <div style="flex: 0 0 80px;"><strong>{{ order.id }}</strong></div>
                 <div style="flex: 1; padding: 0 10px; font-size: 13px; color: #666;">{{ order.model }}</div>
                 <div style="flex: 1; padding: 0 10px; font-size: 12px; color: #888;">{{ order.device }}</div>
@@ -307,14 +310,15 @@ export default {
       this.sampleClients = this.clients;
     }
   },
-  emits: ['new-client-requested', 'client-selected', 'update:clientName'],
+  emits: ['new-client-requested', 'client-selected', 'update:clientName', 'order-selected'],
   data() {
     return {
       sampleClients: [],
       showSuggestions: false,
       filteredClients: [],
       activeSuggestionIndex: -1,
-      currentIndex: -1
+      currentIndex: -1,
+      selectedOrderId: null
     };
   },
   computed: {
@@ -348,6 +352,20 @@ export default {
         // Вызываем ту же логику, что и при выборе через клавиатуру
         this.selectClient(client);
       }
+    },
+    onOrderClick(order) {
+      // Устанавливаем ID выбранного заказа для подсветки
+      this.selectedOrderId = order.id;
+
+      // Создаем mock-данные для устройства на основе информации в заказе
+      // В реальном приложении это будет получено из базы данных
+      const deviceData = this.createDeviceDataFromOrder(order);
+
+      // Вызываем событие для передачи данных об устройстве в родительский компонент
+      this.$emit('order-selected', {
+        orderId: order.id,
+        deviceData: deviceData
+      });
     },
     onClientNameInput(value) {
       this.showSuggestions = value.trim() !== '';
@@ -394,6 +412,66 @@ export default {
         this.showSuggestions = false;
         this.activeSuggestionIndex = -1;
       }, 150);
+    },
+
+    createDeviceDataFromOrder(order) {
+      // Создание mock-данных устройства на основе информации о заказе
+      // В реальном приложении это будет получено из базы данных
+
+      // Определяем тип устройства на основе модели
+      let deviceType = '';
+      if (order.model.includes('Смартфон') || order.model.includes('Телефон')) {
+        deviceType = 'Телефон';
+      } else if (order.model.includes('Ноутбук') || order.model.includes('Компьютер')) {
+        deviceType = 'Ноутбук';
+      } else if (order.model.includes('Планшет')) {
+        deviceType = 'Планшет';
+      } else if (order.model.includes('Наушники')) {
+        deviceType = 'Аксессуар';
+      } else if (order.model.includes('Смарт-часы')) {
+        deviceType = 'Аксессуар';
+      } else {
+        deviceType = 'Другое';
+      }
+
+      // Генерируем IMEI/серийный номер
+      const generatedImei = Math.random().toString().substr(2, 15);
+
+      // Определяем бренд на основе названия устройства
+      let deviceBrand = '';
+      const deviceName = order.device.toLowerCase();
+
+      if (deviceName.includes('iphone') || deviceName.includes('ipad') || deviceName.includes('mac')) {
+        deviceBrand = 'Apple';
+      } else if (deviceName.includes('samsung') || deviceName.includes('galaxy')) {
+        deviceBrand = 'Samsung';
+      } else if (deviceName.includes('xiaomi') || deviceName.includes('poco')) {
+        deviceBrand = 'Xiaomi';
+      } else if (deviceName.includes('huawei')) {
+        deviceBrand = 'Huawei';
+      } else if (deviceName.includes('lenovo')) {
+        deviceBrand = 'Lenovo';
+      } else if (deviceName.includes('dell')) {
+        deviceBrand = 'Dell';
+      } else if (deviceName.includes('hp')) {
+        deviceBrand = 'HP';
+      } else if (deviceName.includes('asus')) {
+        deviceBrand = 'Asus';
+      } else if (deviceName.includes('sony')) {
+        deviceBrand = 'Sony';
+      } else {
+        deviceBrand = 'Другой';
+      }
+
+      // Определяем модель на основе устройства
+      const deviceModel = order.device;
+
+      return {
+        imei: generatedImei,
+        type: deviceType,
+        brand: deviceBrand,
+        model: deviceModel
+      };
     },
 
     selectClient(client) {

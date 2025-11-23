@@ -78,6 +78,7 @@
                     :oldOrders="oldOrders"
                     @new-client-requested="showNewClientModal = true"
                     @client-selected="handleClientSelected"
+                    @order-selected="handleOrderSelected"
                   />
                 </a-col>
                 <a-col :span="12">
@@ -207,7 +208,8 @@ export default {
       graphicalPassword: '',
       oldOrders: [],
       clients: [
-      ]
+      ],
+      deviceDataFromOrder: null
     };
   },
   methods: {
@@ -251,6 +253,16 @@ export default {
       this.oldOrders = clientData.orders || [];
       // Также можем обновить имя клиента в formData, если нужно
       this.formData.clientName = clientData.name;
+    },
+    handleOrderSelected(orderData) {
+      // Обновляем информацию об устройстве на основе выбранного заказа
+      this.deviceDataFromOrder = orderData.deviceData;
+
+      // Обновляем поля формы информацией из выбранного старого заказа
+      this.formData.deviceImei = orderData.deviceData.imei;
+      this.formData.deviceType = orderData.deviceData.type;
+      this.formData.deviceBrand = orderData.deviceData.brand;
+      this.formData.deviceModel = orderData.deviceData.model;
     },
     handleTestModalConfirm() {
       console.log('Test modal confirmed');
