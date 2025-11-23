@@ -77,6 +77,7 @@
                     :clients="clients"
                     :oldOrders="oldOrders"
                     @new-client-requested="showNewClientModal = true"
+                    @client-selected="handleClientSelected"
                   />
                 </a-col>
                 <a-col :span="12">
@@ -244,6 +245,12 @@ export default {
     addNewClient(clientData) {
       this.clients.push(clientData);
       this.showNewClientModal = false;
+    },
+    handleClientSelected(clientData) {
+      // Обновляем информацию о старых заказах при выборе клиента
+      this.oldOrders = clientData.orders || [];
+      // Также можем обновить имя клиента в formData, если нужно
+      this.formData.clientName = clientData.name;
     },
     handleTestModalConfirm() {
       console.log('Test modal confirmed');
