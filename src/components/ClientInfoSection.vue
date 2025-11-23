@@ -1,13 +1,13 @@
 <template>
-  <a-card class="form-section">
+  <a-card class="form-section" style="height: calc(100% - 16px)">
     <template #title>
       <h2 class="section-title">Информация о клиенте</h2>
     </template>
-    <div class="client-info">
-      <div class="client-info-container">
-        <div class="client-info-left">
-          <div style="display: flex; align-items: center; gap: 16px;">
-            <div style="flex: 0 0 300px;">
+    <div class="client-info" >
+      <a-row :gutter="[0, 0]">
+        <a-col :span="24">
+          <a-row :gutter="[16, 0]">
+            <a-col :flex="1">
               <a-form-item label="ФИО клиента" :required="true">
                 <a-auto-complete
                   v-model:value="localClientName"
@@ -21,16 +21,19 @@
                   style="width: 100%;"
                 />
               </a-form-item>
-            </div>
-            <a-button
-              type="primary"
-              @click="$emit('new-client-requested')"
-              style="margin-top:5px"
-            >
-              Новый клиент
-            </a-button>
-          </div>
-
+            </a-col>
+            <a-col :flex="'80px'">
+              <a-button
+                type="primary"
+                @click="$emit('new-client-requested')"
+                style="margin-top: 30px; width: 100%;"
+              >
+                Новый клиент
+              </a-button>
+            </a-col>
+          </a-row>
+        </a-col>
+        <a-col :span="24">
           <!-- Отображение старых заказов под информацией о клиенте -->
           <div class="old-orders-container">
             <h4 style="margin-top: 0px; margin-bottom: 4px; font-weight: 700;">Старые заказы:</h4>
@@ -49,14 +52,14 @@
               Нет предыдущих заказов
             </div>
           </div>
-        </div>
-      </div>
+        </a-col>
+      </a-row>
     </div>
   </a-card>
 </template>
 
 <script>
-import { Card, Form, AutoComplete, Button } from 'ant-design-vue';
+import { Card, Form, AutoComplete, Button, Row, Col } from 'ant-design-vue';
 
 export default {
   name: 'ClientInfoSection',
@@ -65,6 +68,8 @@ export default {
     [Form.Item.name]: Form.Item,
     [AutoComplete.name]: AutoComplete,
     [Button.name]: Button,
+    [Row.name]: Row,
+    [Col.name]: Col,
   },
   props: {
     clientName: {
@@ -114,8 +119,14 @@ export default {
           name: "Козлов Алексей Михайлович",
           phone: "+7 (904) 456-78-90",
           orders: [
-            { id: "ORD-145", device: "Xiaomi Redmi", model: "Смартфон", date: "2023-07-18" },
-            { id: "ORD-256", device: "Lenovo ThinkPad", model: "Ноутбук", date: "2023-10-25" }
+          { id: "ORD-145", device: "Xiaomi Redmi", model: "Смартфон", date: "2023-07-18" },
+          { id: "ORD-146", device: "Xiaomi Redmi", model: "Смартфон", date: "2023-07-18" },
+          { id: "ORD-147", device: "Xiaomi Redmi", model: "Смартфон", date: "2023-07-18" },
+          { id: "ORD-148", device: "Xiaomi Redmi", model: "Смартфон", date: "2023-07-18" },
+          { id: "ORD-149", device: "Xiaomi Redmi", model: "Смартфон", date: "2023-07-18" },
+          { id: "ORD-140", device: "Xiaomi Redmi", model: "Смартфон", date: "2023-07-18" },
+          { id: "ORD-167", device: "Xiaomi Redmi", model: "Смартфон", date: "2023-07-18" },
+          { id: "ORD-256", device: "Lenovo ThinkPad", model: "Ноутбук", date: "2023-10-25" }
           ]
         },
         {
@@ -493,11 +504,14 @@ export default {
   display: flex;
   gap: 16px;
   align-items: flex-start;
+  border: 1px solid red;
+  height: 100%;
 }
 
 .client-info-left {
   flex: 1;
   min-width: 0;
+  border: 1px solid rgb(8, 0, 255);
 }
 
 .old-orders-container {

@@ -70,7 +70,7 @@
             <h1 class="page-title">Новый заказ</h1>
 
             <a-form id="orderForm" :model="formData" @finish="submitForm" layout="vertical">
-              <a-row :gutter="8">
+              <a-row :gutter="[16, 16]" >
                 <a-col :span="12">
                   <ClientInfoSection
                     v-model:clientName="formData.clientName"

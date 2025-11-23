@@ -1,5 +1,5 @@
 <template>
-  <a-card class="form-section">
+  <a-card class="form-section" style="height: calc(100% - 16px)">
     <template #title>
       <h2 class="section-title">Информация об устройстве</h2>
     </template>
